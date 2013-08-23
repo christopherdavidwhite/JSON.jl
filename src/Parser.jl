@@ -209,6 +209,12 @@ module Parser
       end
     end
     trace_out(tracer, _ti)
+    
+    #check if the fields are "im", "re" (i.e. obj represents a complex
+    #number). If so, convert to Complex{Float64}.
+    if(sort(map(x->x[1], obj)) == sort(["im", "re"]))
+      obj = convert(Float64, obj["re"]) + im*convert(Float64, obj["im"])
+    end
     return (obj, s, e)
   end
   
